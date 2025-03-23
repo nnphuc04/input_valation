@@ -5,12 +5,12 @@ import json
 from dotenv import load_dotenv
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.chains import RetrievalQA
-from langchain_community.vectorstores import Chroma  # Sửa import
-from langchain_community.embeddings import HuggingFaceEmbeddings  # Sử dụng HuggingFace thay vì OpenAI
+from langchain_community.vectorstores import Chroma  
+from langchain_community.embeddings import HuggingFaceEmbeddings 
 from langchain.llms.base import LLM
 from typing import Any, List, Mapping, Optional
 from langchain.callbacks.manager import CallbackManagerForLLMRun
-from unstructured.partition.html import partition_html  # Giữ nguyên import này
+from unstructured.partition.html import partition_html  
 
 # DeepSeek API URL
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1"
@@ -67,7 +67,6 @@ class DeepSeekLLM(LLM):
 class RagApplication:
     def __init__(self, api_key):
         try:
-            # Initialize DeepSeek LLM
             print("Khoi tao DeepSeek LLM...")
             self.llm = DeepSeekLLM(
                 api_key=api_key,
@@ -88,13 +87,11 @@ class RagApplication:
                 model_name="sentence-transformers/all-MiniLM-L6-v2"
             )
             
-            # Text splitter for chunking documents
             self.text_splitter = CharacterTextSplitter(
                 chunk_size=1000,
                 chunk_overlap=200
             )
             
-            # Vector store path
             self.persist_directory = "db"
             
             # Initialize vector DB or load if exists
@@ -189,19 +186,19 @@ if __name__ == "__main__":
     print("=== Ung dung RAG voi DeepSeek, ChromaDB, va LangChain ===\n")
     
     try:
-        # Luôn yêu cầu nhập API key thủ công
+    
         api_key = input("Vui long nhap DeepSeek API key cua ban: ")
         
         rag_app = RagApplication(api_key)
         
-        # Example: Process a tabular file
+        
         file_path = "sample_data.csv"
         print(f"\nDang xu ly file: {file_path}")
         
         document_text = rag_app.process_table_data(file_path)
         rag_app.ingest_documents(document_text)
         
-        # Query example
+        
         print("\n=== Che do hoi dap ===")
         print("Go 'exit' de thoat")
         
